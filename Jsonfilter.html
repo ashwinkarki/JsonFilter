@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+
+</body>
+<script type="text/javascript">
+	var newData = {
+    "docId":2,
+    "letterNo":1,
+    "seqNo":1,
+    "imgName": "D"
+};
+//Solution using filters
+var insertNewData = false;
+var imageList = [{
+    "docId":1,
+    "letterNo":1,
+    "seqNo":1,
+    "imgName": "A"
+},
+{
+    "docId":2,
+    "letterNo":1,
+    "seqNo":1,
+    "imgName": "B"
+},
+{
+    "docId":3,
+    "letterNo":1,
+    "seqNo":1,
+    "imgName": "C"
+}];
+imageList = imageList.filter(function(oldData){
+    if(oldData["docId"] == newData["docId"] && oldData["letterNo"] == newData["letterNo"] && oldData["seqNo"] == newData["seqNo"])
+    {
+        insertNewData = true;//a flag
+        return false;//remove old data from array
+    }
+    else
+        return true;
+});
+if(insertNewData)
+{
+    imageList.push(newData);
+    insertNewData = false;
+    console.log("old data is removed and new data is pushed using filters",imageList);
+}
+</script>
+</html>
