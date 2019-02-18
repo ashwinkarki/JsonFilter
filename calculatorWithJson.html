@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+  <form id="myForm">
+    <div id="formContainer" class="col-md-12" style="float: none;">
+      <!--  <button onclick="myFunction()" class="pull-right">+</button> -->
+      <div style="margin-bottom: 30px;">
+        <div class="form-group row">
+          <div class="col-md-1"></div>
+          <div class="col-md-4">
+            <label>Reason</label>
+          </div>
+          <div class="col-md-2">
+            <label>Amount</label>
+          </div>
+          <div class="col-md-2">
+            <label>Penalty</label>
+          </div>
+          <div class="col-md-1">Total</div>
+          <div class="col-md-2">Action</div>
+        </div>
+        <div class="customs-table row">
+          <div class="col-md-1">
+            <label>Customs</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control customsReason" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt customsAmount" value="0" name="abc" min="0" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt customsPenalty" value="0" name="abc" min="0" />
+          </div>
+          <div class="col-md-1">
+            <span class="sum">0</span>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="add">+</button>
+            <button type="button" class="remove">-</button>
+          </div>
+        </div>
+        <div class="vat-table row">
+          <div class="col-md-1">
+            <label>VAT</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control vatReason" name="vatReason" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt1 vatAmount" value="0" name="vatAmount" min="0" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt1 vatPenalty" value="0" name="vatPenalty" min="0" />
+          </div>
+          <div class="col-md-1">
+            <span class="sum">0</span>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="add">+</button>
+            <button type="button" class="remove">-</button>
+          </div>
+        </div>
+        <div class="excise-table row">
+          <div class="col-md-1">
+            <label>Excise</label>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control exciseReason" name="exciseReason" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt2 exciseAmount" value="0" name="exciseAmount" min="0" />
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control txt2 excisePenalty" value="0" name="excisePenalty" min="0" />
+          </div>
+          <div class="col-md-1">
+            <span class="sum">0</span>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="add">+</button>
+            <button type="button" class="remove">-</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12 pull-right">
+      <label>Total:</label>&nbsp;<b><span id="tot">0</span></b>
+    </div>
+    <button type="submit" class="btn btn-success pull-right">Submit</button>
+  </form>
+</body>
+<script>
+	var types = ["", "customs", "vat", "excise"]; // 1,2,3
+function getText(str) {
+  return $.trim(/\s/.test(str)?str.split(/\s+/)[1]:str);
+
+}
+var data = {
+  "assessCatAmount": [{
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 1,
+      "assessReason": "A",
+      "assessAmount": 1,
+      "assessPenalty": 2,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    },
+    {
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 1,
+      "assessReason": "D",
+      "assessAmount": 3,
+      "assessPenalty": 4,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    },
+    {
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 2,
+      "assessReason": "B",
+      "assessAmount": 5,
+      "assessPenalty": 6,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    },
+    {
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 2,
+      "assessReason": "E",
+      "assessAmount": 7,
+      "assessPenalty": 8,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    },
+    {
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 3,
+      "assessReason": "C",
+      "assessAmount": 9,
+      "assessPenalty": 10,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    },
+    {
+      "assessmentNo": 1,
+      "assessmentType": "PRE",
+      "assessCatId": 3,
+      "assessReason": "F",
+      "assessAmount": 10,
+      "assessPenalty": 10,
+      "entryBy": "PCS",
+      "rStatus": "1"
+    }
+  ]
+}
+
+
+function sumIt() {
+  $("#formContainer [type=number]").each(function() {
+    var $row = $(this).closest(".row");
+    var $fields = $row.find("[type=number]");
+    var val1 = $fields.eq(0).val();
+    var val2 = $fields.eq(1).val();
+    var tot = (isNaN(val1) ? 0 : +val1) + (isNaN(val2) ? 0 : +val2)
+    $row.find(".sum").text(tot);
+  });
+  var total = 0;
+  $(".sum").each(function() {
+    total += isNaN($(this).text()) ? 0 : +$(this).text()
+  });
+  $("#tot").text(total);
+  return total;
+}
+
+// data={} // test no data
+function addNums(i) {
+  $(this).html(function() {
+    var text = $(this).text();
+    // Get the text without leading number - fake a space in case there are none yet
+    var type = getText(text);
+    var length = $("."+type.toLowerCase()+"-table").length;
+    return (length===1?"":i+ "&nbsp;") + type; // only show numbers if more than one
+  });
+}
+
+
+function cleanUp() {
+  $(".customs-table .remove:gt(0)").show();
+  $(".vat-table     .remove:gt(0)").show();
+  $(".excise-table  .remove:gt(0)").show();
+
+  $(".customs-table.row > div > label").each(addNums);
+  $(".vat-table.row > div > label").each(addNums);
+  $(".excise-table.row > div > label").each(addNums);
+
+}
+
+
+$(function() {
+
+  $(".customs-table .remove:lt(1)").hide();
+  $(".vat-table     .remove:lt(1)").hide();
+  $(".excise-table  .remove:lt(1)").hide();
+
+  $("#formContainer").on("click", "button", function() {
+    var selector = "div.row";
+    var $div = $(this).closest(selector);
+    if ($(this).is(".add")) {
+      var $newDiv = $div.clone();
+      $newDiv.find(":input").val(""); // clear all
+      $newDiv.find("[type=number]").val(0); // clear numbers
+      $newDiv.find(".sum").text(0); // clear total
+      $newDiv.insertAfter($div)
+    } else {
+      $div.remove();
+      sumIt();
+    }
+    cleanUp();
+  });
+
+
+  $("#formContainer").on("input", "[type=number]", sumIt);
+
+  $("form").submit(function() {
+    event.preventDefault();
+    var user_profile = [];
+    $(".row:visible").each(function() {
+      var $fields = $(this).find(":input");
+      if ($fields.length > 0) {
+        var cat = getText($(this).find("div>label").eq(0).text()); // use the label of the row
+        var catId = types.indexOf(cat.toLowerCase())
+        user_profile.push({
+          assessmentType: "PRE",
+          assessCatID: catId,
+          assessReason: $fields.eq(0).val(),
+          assessAmount: $fields.eq(1).val(),
+          assessPenalty: $fields.eq(2).val(),
+          assessTotal: +$fields.eq(1).val() + +$fields.eq(2).val() // the leading + makes it a number
+        });
+      }
+    });
+    console.log(user_profile);
+  });
+
+  var showEmpty = true;
+  $.each(data.assessCatAmount, function(_, cat) {
+    showEmpty = false; // there was data
+    var type = types[cat.assessCatId];
+    var $newDiv = $("#formContainer").find("." + type + "-table").eq(0).clone();
+    $.each(cat, function(key, value) {
+      var fieldName = key.replace("assess", type);
+      var $field = $newDiv.find("." + fieldName);
+      if ($field) $field.val(value);
+    });
+    $("#formContainer").append($newDiv)
+  });
+  $(".customs-table").eq(0).toggle(showEmpty);
+  $(".vat-table").eq(0).toggle(showEmpty);
+  $(".excise-table").eq(0).toggle(showEmpty);
+  cleanUp();
+});
+	
+</script>
+</html>
